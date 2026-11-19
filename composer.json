@@ -1,0 +1,58 @@
+{
+    "name": "stolt/hyde-llms-txt",
+    "description": "A HydePHP extension that generates an llms.txt file from site content during a static-site build.",
+    "keywords": [
+        "hydephp",
+        "hyde",
+        "llms-txt",
+        "llms.txt",
+        "hydephp-extension"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Raphael Stolt",
+            "email": "raphael.stolt@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "hyde/framework": "^2.0",
+        "stolt/llms-txt-php": "^4.0"
+    },
+    "require-dev": {
+        "carthage-software/mago": "^1.0",
+        "mockery/mockery": "^1.6",
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Stolt\\HydeLlmsTxt\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Stolt\\HydeLlmsTxt\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Stolt\\HydeLlmsTxt\\LlmsTxtServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "lint": "mago lint",
+        "analyze": "mago analyze",
+        "fmt": "mago fmt",
+        "test": "./vendor/bin/phpunit",
+        "check": ["@lint", "@analyze", "@test"]
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true
+    }
+}
