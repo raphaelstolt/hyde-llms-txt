@@ -123,6 +123,11 @@ correct, secure, or free of defects. All contributions remain subject to human r
 As with any software, use this package at your own risk. No guarantee is made regarding its fitness for a particular
 purpose, and the maintainers assume no liability for damages resulting from its use.
 
+## Contributing
+
+If you're considering contributing to this project, have a look at this repository's [CONTRIBUTING.md](CONTRIBUTING.md)
+for more advice.
+
 ## License
 
 This extension is licensed under the MIT license. Please see [LICENSE.md](LICENSE.md) for more details.
