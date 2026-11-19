@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [0.9.1] - 2026-11-19
+
 ### Fixed
 
 - Normalize whitespace in link descriptions to prevent multiline excerpts from breaking `llms.txt` formatting.
