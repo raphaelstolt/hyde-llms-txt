@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-11-19
+
 ### Added
 
 - Automatic generation of `llms.txt` after a HydePHP site build.
