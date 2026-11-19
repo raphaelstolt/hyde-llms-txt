@@ -125,7 +125,7 @@ purpose, and the maintainers assume no liability for damages resulting from its 
 
 ## License
 
-This library is licensed under the MIT license. Please see [LICENSE.md](LICENSE.md) for more details.
+This extension is licensed under the MIT license. Please see [LICENSE.md](LICENSE.md) for more details.
 
 ## Changelog
 
