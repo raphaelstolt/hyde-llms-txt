@@ -245,7 +245,22 @@ class ContentMapperTest extends TestCase
         $output = (new ContentMapper())->map()->toString();
         $this->assertStringContainsString('## Blog Posts', $output);
         $this->assertStringContainsString('[First Post](/posts/first-post)', $output);
-        $this->assertStringContainsString('My first blog post', $output);
+        $this->assertStringNotContainsString('My first blog post', $output);
+    }
+
+    public function test_blog_only_output_omits_link_descriptions_but_keeps_site_description(): void
+    {
+        $post = $this->createPost('Post', '/posts/post', 'posts/post');
+        $post->description = "An excerpt.\n\nMore text.";
+        $hiddenDoc = $this->createDocPage('Hidden', '/docs/hidden', 'docs/hidden', hidden: true);
+
+        $this->setupFacades(cfg: ['title' => 'Site', 'description' => 'Site description'], docs: [$hiddenDoc], posts: [$post]);
+
+        $output = (new ContentMapper())->map()->toString();
+        $this->assertStringContainsString('Site description', $output);
+        $this->assertStringContainsString('- [Post](/posts/post)' . PHP_EOL, $output);
+        $this->assertStringNotContainsString('An excerpt.', $output);
+        $this->assertStringNotContainsString('More text.', $output);
     }
 
     public function test_map_includes_standard_pages_when_enabled(): void
@@ -260,6 +275,22 @@ class ContentMapperTest extends TestCase
         $output = (new ContentMapper())->map()->toString();
         $this->assertStringContainsString('## Pages', $output);
         $this->assertStringContainsString('[About](/about)', $output);
+    }
+
+    public function test_map_keeps_multiline_descriptions_on_their_link_lines(): void
+    {
+        $post = $this->createPost('First Post', '/posts/first', 'posts/first');
+        $post->description = "Before writing code.\n\nWhen starting a new project...";
+        $doc = $this->createDocPage('Guide', '/docs/guide', 'docs/guide', "  First line.\r\n\tSecond line.  ");
+        $empty = $this->createDocPage('Empty', '/docs/empty', 'docs/empty', " \n\t ");
+
+        $this->setupFacades(cfg: ['title' => 'Test Site'], docs: [$doc, $empty], posts: [$post]);
+
+        $output = (new ContentMapper())->map()->toString();
+        $this->assertStringContainsString('- [First Post](/posts/first): Before writing code. When starting a new project...', $output);
+        $this->assertStringContainsString('- [Guide](/docs/guide): First line. Second line.', $output);
+        $this->assertStringContainsString('- [Empty](/docs/empty)' . PHP_EOL, $output);
+        $this->assertStringNotContainsString('[Empty](/docs/empty):', $output);
     }
 
     // ---- Tests: Filtering ----
@@ -453,8 +484,10 @@ class ContentMapperTest extends TestCase
     public function test_map_uses_post_description_property_as_fallback(): void
     {
         $post = $this->createPost('Post Title', '/posts/post-title', 'posts/post-title', 'Fallback description from property');
+        $doc = $this->createDocPage('Guide', '/docs/guide', 'docs/guide');
         $this->setupFacades(
             cfg: ['enabled' => true, 'title' => 'Test Site', 'description' => '', 'include' => ['docs' => true, 'posts' => true, 'pages' => false], 'exclude' => []],
+            docs: [$doc],
             posts: [$post]
         );
         $output = (new ContentMapper())->map()->toString();

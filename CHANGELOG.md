@@ -7,6 +7,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+### Fixed
+
+- Normalize whitespace in link descriptions to prevent multiline excerpts from breaking `llms.txt` formatting.
+- Omit post link descriptions when blog posts are the only eligible content, while retaining the site description.
+
 ## [0.9.0] - 2026-11-19
 
 ### Added

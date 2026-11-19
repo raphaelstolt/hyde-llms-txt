@@ -69,6 +69,8 @@ return [
 After the site is compiled, a post-build task discovers the enabled content types and groups their links into sections.
 Pages with `hidden: true` front matter, excluded route keys, and pages without a URL are omitted. Links are sorted by
 title and deduplicated by URL within each section. If no eligible content is found, the task skips generation.
+When blog posts are the only eligible content, their link descriptions are omitted; the configured site description
+is retained.
 
 ## Example output
 

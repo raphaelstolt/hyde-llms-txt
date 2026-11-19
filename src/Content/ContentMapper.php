@@ -36,9 +36,10 @@ class ContentMapper
         $this->addDescription($document, $config);
 
         $sections = $this->collectSections($config);
+        $blogOnly = count($sections) === 1 && isset($sections['Blog Posts']);
 
         foreach ($sections as $sectionName => $links) {
-            $document->addSection($this->buildSection($sectionName, $links));
+            $document->addSection($this->buildSection($sectionName, $links, $blogOnly));
         }
 
         return $document;
@@ -133,7 +134,7 @@ class ContentMapper
      *
      * @param array<int, array{title: string, url: string, description: string}> $links
      */
-    private function buildSection(string $name, array $links): Section
+    private function buildSection(string $name, array $links, bool $omitDescriptions = false): Section
     {
         $section = (new Section())->name($name);
 
@@ -152,13 +153,13 @@ class ContentMapper
             $seenUrls[] = $url;
 
             $title = $linkData['title'];
-            $description = $linkData['description'];
+            $description = trim(preg_replace('/\s+/', ' ', $linkData['description']) ?? $linkData['description']);
 
             $link = (new Link())
                 ->urlTitle($title)
                 ->url($url);
 
-            if ($description !== '') {
+            if (! $omitDescriptions && $description !== '') {
                 $link->urlDetails($description);
             }
 
